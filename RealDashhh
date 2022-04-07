@@ -1,0 +1,86 @@
+
+<? xml sürümü = " 1.0 " kodlama = " utf-8 " ?>
+<!-- RealDash CAN XML açıklaması, sürüm 2 RealDash versiyonu 1.5.8 veya daha yenisini gerçekleştirme -->
+< RealDashCAN  sürümü = " 2 " >
+  <!-- baseId [isteğe Bağlı] her çerçeve canId'sine eklenir. -->
+  <!-- çerçeveler baseId="3200" -->
+  < çerçeveler >
+    <!-- 'çerçeve' İÇİN PARAMETRELER -->
+    <!-- 'id' olabilir (= baseId + id). Kimliği onaltı değer olarak kullanmak için 0x önekini kullanılır. Örneğin, <frameid="3200">dur <frame id="0x0c80"> -->
+    <!-- 'writeInterval' [bağlı] bu CAN çerçeve bu aralıkta (milisaniye) CAN veriyoluna -->
+    <!-- 'endianess' [isteğe Bağlı] tüm çerçeve yüksekliklerinin endianess'i (büyük | küçük [varsayılan]).  -->
+    <!-- RealDash'i çerçevedeki tüm değerleri işaretli değerler olarak işlemeye zorlamak için 'imzalı' [isteğe Bağlı, 1.7.4'ten itibaren] true olarak ayarlandı.  -->
+    < çerçeve  kimliği = " 3200 " >
+      <!-- 'değer' İÇİN PARAMETRELER -->
+      <!-- 'targetId' değeri RealDash girişine bağlar, tam liste için RealDash kılavuzlarına bakın www -->
+      <!-- VEYA -->
+      <!-- 'ad' değeri RealDash girişine bağlar, giriş 'ECU'ya Özel' giriş görünür -->
+
+      <!-- 'birimler' [isteğe Bağlı], gösterge tablolarının düzgün çalışması için belirtilmesi gereken "F", "mph", "psi", "bit" sonrası hesaplamalar için kullanılır -->
+      <!-- çerçevedeki değerin 'ofset' baytı ofseti -->
+      <!-- bayt olarak'uzunluk' uzunluğu -->
+      <!-- 'startbit' [isteğe Bağlı] değerin ilk bitinin dizini -->
+      <!-- 'bitcount' [isteğe Bağlı] değer tarafından kullanılan bit sayısı -->
+      <!-- 'endianess' [isteğe Bağlı] değerin endianess'i (büyük | küçük [varsayılan]).  -->
+      <!-- 'imzalı' [isteğe Bağlı, 1.7.4'ten itibaren], RealDash'i bu değerilı olarak işlemeye zorlamak için true olarak ayarlandı.  -->
+      <!- ​​'rangeMax' [isteğe Bağlı] 'targetId' yerine 'name' kullanılırsa, bu RealDash'i kullanmasında ve tamamlamada seçimdir -->
+      <!-- 'initialValue' [opsiyonel] bu parametre mevcut ise CAN bus' bir bağlantı yapıldıktan sonra CAN'a değer kullanım -->
+      <!-- 'dönüşüm' [isteğe Bağlı] atlanırsa, değer 'olduğu gibi' okunur.
+           Aksi durumda 'B1', 'B', 'B2', 'V' ve 'ID#' ibareleri şeklinde formunda kullanılabilir, örneğin;
+           convert="V/10" - sonuç gelen değerdir / 10
+           convert="B0+15*(B1-43)" - sonuç 'ilk bayt + 15 * (ikinci bayt - 43)
+           convert="V+ID200-74.3" - sonuç gelen değer + 'Gövde Elektroniği->Gear' - 74.3 -->
+      <!- ​​RealDash sürüm 1.6.6'dan itibaren, 'ABC' bir 'dönüştürme' seçimidir ve üzerindeki baytları ayırt etmek için A,B,C,...AA, AB,AC,...,etc hedefini tespit etmek . cevap.
+           Bu, Denklemi uygulama uygulamalarından doğrudan doğruya.
+           Örnek: convert="B0+15*(B1-43)" ve convertABC="A+15*(B-43)" aynı vakayı verir -->
+
+      <!-- 1. CAN çerçevesi, RPM, MAP, CLT, TPS -->
+      < value  targetId = " 37 "  birim = " RPM "  offset = " 0 "  harcama = " 2 " ></ değeri >
+      < değer  targetId = " "  birim = " kPA "  ofset = "  2 " tesisat = "  2 " dönüşüm = " V/10 " > </ değeri >
+      < value  targetId = " 14 "  birim = " C "  offset = " 4 "  = " 2 " dönüm = " V -100 " ></ değeri > 
+      < value  targetId = " 42 "  birim = " % "  offset = " 6 "  = " 2 " dönüm = " V /10 " ></ değeri > 
+    </ çerçeve >
+      
+    < çerçeve  kimliği = " 3201 " >
+      <!-- 2. CAN çerçeve, Arduino örneği dijital girişler, bunlar RealDash 'ya Özel' etkinliklerECU'ya yönelik -->
+      <!- ​​9 bitlik hedeflerin amacından farklı 2 bayttanne dikkat edin -->
+      <!-- unit="bit" ise, RealDash açık veya kapalı olarak her zaman en az biti kontrol eder. Bu artış, dönüşümde akışta bit kayması -->
+      < değer  adı = " Arduino Örneği: Dijital 1 "  startbit = " 0 "  bitcount = " 1 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Dijital 2 "  startbit = " 1 "  bitcount = " 1 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Dijital 3 "  startbit = " 2 "  bitcount = " 1 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Dijital 4 "  startbit = " 3 "  bitcount = " 1 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Dijital 5 "  startbit = " 4 "  bitcount = " 1 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Dijital 6 "  startbit = " 5 "  bitcount = " 1 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Dijital 7 "  startbit = " 6 "  bitcount = " 1 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Dijital 8 "  startbit = " 7 "  bitcount = " 1 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Dijital 9 "  startbit = " 8 "  bitcount = " 1 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Dijital 10 "  startbit = " 9 "  bitcount = " 1 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Dijital 11 "  startbit = " 10 "  bitcount = " 1 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Dijital 12 "  startbit = " 11 "  bitcount = " 1 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Dijital 13 "  startbit = " 12 "  bitcount = " 1 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Analog 1 "  offset = " 2 "  uzunluk = " 2 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Analog 2 "  offset = " 4 "  uzunluk = " 2 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Analog 3 "  offset = " 6 "  uzunluk = " 2 " ></ değeri >
+    </ çerçeve >
+
+    <!-- 3. CAN çerçevesi, kalan Arduino analog girişlerini içerir -->
+    < çerçeve  kimliği = " 3202 " >
+      < değer  adı = " Arduino Örneği: Analog 4 "  offset = " 0 "  uzunluk = " 2 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Analog 5 "  offset = " 2 "  uzunluk = " 2 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Analog 6 "  offset = " 4 "  uzunluk = " 2 " ></ değeri >
+      < değer  adı = " Arduino Örneği: Analog 7 "  offset = " 6 "  uzunluk = " 2 " ></ değeri >
+    </ çerçeve >
+
+    < çerçeve  kimliği = " 3203 " >
+      <!-- 4. CAN çerçevesi, metin uzantısı çerçevesi örneği -->
+      <!-- Metin uzantısı çerçevesi RealDash 1.4.1 veya daha yenisini gerektirir -->
+      <!-- her metin değeri için kendi benzersiz CAN kimliğini beyan edin. -->
+      <!-- metin uzantısı çerçevesi her zaman CAN kimliğinin tamamını tüketir, bir çerçeveye birden çok metin dizisi eklenemez. -->
+
+      <!-- birimler "metin" olarak ayarlanmalıdır -->
+      <!-- offset, uzunluk ve dönüştürme değerlerinin metin verileriyle bir anlamı yoktur -->
+      < değer  adı = " Arduino Örneği: Metin 1 "  maaş = " metin " ></ değeri >
+    </ çerçeve >
+
+  </ çerçeve >
+</ RealDashCAN >
